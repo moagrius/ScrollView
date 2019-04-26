@@ -1,0 +1,39 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:tools="http://schemas.android.com/tools"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:context=".MainActivity">
+
+  <LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <TextView
+      android:id="@+id/textview_demos_scrollview_vertical"
+      android:text="ScrollView Demo (Vertical)"
+      style="@style/DemoRow" />
+
+    <TextView
+      android:id="@+id/textview_demos_scrollview_horizontal"
+      android:text="ScrollView Demo (Horizontal)"
+      style="@style/DemoRow" />
+
+    <TextView
+      android:id="@+id/textview_demos_scrollview_universal"
+      android:text="ScrollView Demo (Universal)"
+      style="@style/DemoRow" />
+
+    <TextView
+      android:id="@+id/textview_demos_scalingscrollview_textviews"
+      android:text="ScalingScrollView Demo (TextViews)"
+      style="@style/DemoRow" />
+
+    <TextView
+      android:id="@+id/textview_demos_scalingscrollview_tiger"
+      android:text="ScalingScrollView Demo (SVG Tiger)"
+      style="@style/DemoRow" />
+
+  </LinearLayout>
+
+</ScrollView>
