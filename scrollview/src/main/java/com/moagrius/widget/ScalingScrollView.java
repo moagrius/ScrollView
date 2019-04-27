@@ -63,7 +63,7 @@ public class ScalingScrollView extends ScrollView implements
   }
 
   @Override
-  public boolean onTouchEvent(MotionEvent event) {
+  public boolean dispatchTouchEvent(MotionEvent event) {
     mScaleGestureDetector.onTouchEvent(event);
     if (mIsScaling) {
       return true;
@@ -72,7 +72,7 @@ public class ScalingScrollView extends ScrollView implements
     if (mIsScaling) {
       return true;
     }
-    return super.onTouchEvent(event);
+    return super.dispatchTouchEvent(event);
   }
 
   @Override
