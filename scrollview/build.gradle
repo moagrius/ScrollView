@@ -43,7 +43,7 @@ publish {
   userOrg = 'moagrius'
   groupId = 'com.moagrius'
   artifactId = 'scrollview'
-  publishVersion = '1.0.0'
+  publishVersion = '1.0.1'
   desc = 'Universal (2D) ScrollView, and a version with zoom (scaling)'
   website = 'https://github.com/moagrius/ScrollView'
 }
