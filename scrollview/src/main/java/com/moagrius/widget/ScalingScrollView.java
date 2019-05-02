@@ -120,8 +120,10 @@ public class ScalingScrollView extends ScrollView implements
   // scale limits
 
   private void calculateMinimumScaleToFit() {
-    float minimumScaleX = getWidth() / (float) getContentWidth();
-    float minimumScaleY = getHeight() / (float) getContentHeight();
+    float effectiveWidth = getContentWidth() / mScale;
+    float effectiveHeight = getContentHeight() / mScale;
+    float minimumScaleX = getWidth() / effectiveWidth;
+    float minimumScaleY = getHeight() / effectiveHeight;
     float recalculatedMinScale = computeMinimumScaleForMode(minimumScaleX, minimumScaleY);
     if (recalculatedMinScale != mEffectiveMinScale) {
       mEffectiveMinScale = recalculatedMinScale;
