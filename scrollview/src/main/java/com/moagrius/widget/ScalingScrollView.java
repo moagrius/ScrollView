@@ -6,12 +6,11 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.util.AttributeSet;
 import android.util.Log;
-import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.ScaleGestureDetector;
 import android.view.animation.Interpolator;
 
-import com.moagrius.view.DoubleTapGestureDetector;
+import com.moagrius.view.PointerDownGestureDetector;
 
 import java.lang.ref.WeakReference;
 
@@ -20,12 +19,14 @@ import java.lang.ref.WeakReference;
  */
 
 public class ScalingScrollView extends ScrollView implements
-  GestureDetector.OnDoubleTapListener,
+  PointerDownGestureDetector.OnPointerDownListener,
   ScaleGestureDetector.OnScaleGestureListener {
+
+  private static final int SCROLL_GESTURE_MAX_POINTER_COUNT = 1;
 
   public enum MinimumScaleMode {CONTAIN, COVER, NONE}
 
-  private DoubleTapGestureDetector mDoubleTapGestureDetector;
+  private PointerDownGestureDetector mPointerDownGestureDetector;
   private ScaleGestureDetector mScaleGestureDetector;
   private ScaleChangedListener mScaleChangedListener;
 
@@ -39,6 +40,7 @@ public class ScalingScrollView extends ScrollView implements
   private float mEffectiveMinScale = 0f;
 
   private boolean mIsScaling;
+  private boolean mHasSingleFingerDown;
   private boolean mWillHandleContentSize;
   private boolean mShouldVisuallyScaleContents;
   private boolean mShouldLoopScale = true;
@@ -53,7 +55,7 @@ public class ScalingScrollView extends ScrollView implements
 
   public ScalingScrollView(Context context, AttributeSet attrs, int defStyleAttr) {
     super(context, attrs, defStyleAttr);
-    mDoubleTapGestureDetector = new DoubleTapGestureDetector(context, this);
+    mPointerDownGestureDetector = new PointerDownGestureDetector(context, this);
     mScaleGestureDetector = new ScaleGestureDetector(context, this);
     mZoomScrollAnimator = new ZoomScrollAnimator(this);
   }
@@ -68,11 +70,14 @@ public class ScalingScrollView extends ScrollView implements
     if (mIsScaling) {
       return true;
     }
-    mIsScaling = mDoubleTapGestureDetector.onTouchEvent(event);
+    mIsScaling = mPointerDownGestureDetector.onTouchEvent(event);
     if (mIsScaling) {
       return true;
     }
-    return super.onTouchEvent(event);
+    if (mHasSingleFingerDown) {
+      return super.onTouchEvent(event);
+    }
+    return false;
   }
 
   @Override
@@ -205,13 +210,13 @@ public class ScalingScrollView extends ScrollView implements
     if (scale == mScale) {
       return;
     }
-    int x = getOffsetScrollXFromScale(offsetX, scale, mScale);
-    int y = getOffsetScrollYFromScale(offsetY, scale, mScale);
+
+    float previous = mScale;
 
     setScale(scale);
 
-    x = getConstrainedScrollX(x);
-    y = getConstrainedScrollY(y);
+    int x = getOffsetScrollXFromScale(offsetX, mScale, previous);
+    int y = getOffsetScrollYFromScale(offsetY, mScale, previous);
 
     scrollTo(x, y);
   }
@@ -233,23 +238,12 @@ public class ScalingScrollView extends ScrollView implements
   // interface methods
 
   @Override
-  public boolean onSingleTapConfirmed(MotionEvent event) {
-    return false;
-  }
-
-  @Override
-  public boolean onDoubleTap(MotionEvent event) {
+  public void onDoubleTap(MotionEvent event) {
     Log.d("double-tap", "double tap");
     float destination = (float) (Math.pow(2, Math.floor(Math.log(mScale * 2) / Math.log(2))));
     float effectiveDestination = mShouldLoopScale && mScale >= mMaxScale ? mMinScale : destination;
     destination = getConstrainedDestinationScale(effectiveDestination);
     smoothScaleFromFocalPoint((int) event.getX(), (int) event.getY(), destination);
-    return true;
-  }
-
-  @Override
-  public boolean onDoubleTapEvent(MotionEvent event) {
-    return true;
   }
 
   @Override
@@ -271,6 +265,11 @@ public class ScalingScrollView extends ScrollView implements
   @Override
   public void onScaleEnd(ScaleGestureDetector scaleGestureDetector) {
     mIsScaling = false;
+  }
+
+  @Override
+  public void onPointerCounterChange(int pointerCount) {
+    mHasSingleFingerDown = (pointerCount == SCROLL_GESTURE_MAX_POINTER_COUNT);
   }
 
   @Override
