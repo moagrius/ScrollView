@@ -8,6 +8,18 @@ This is fine, and will suit your needs in the great majority of circumstances.  
 
 Our goal was to provide a single widget that made made these decisions algorithmically.  The result is `com.moagriu.widgets.ScrollView`.
 
+## Installation
+
+`ScrollView` is available on jcenter.  Use the gradle `implementation` function in your `build.gradle`
+
+```
+implementation 'com.moagrius:scrollview:1.0.4'
+```
+
+## Usage
+
+The `com.moagrius.widgets.ScrollView` should be very familiar to users of `android.widget.ScrollView`.  For your convenience, there's a demo module included in this repo.  Just clone the repo, open the project in Android Studio, then hit `Run`.  The demo will play on whatever attached devices or emulators are running.  There are several examples of uses for both `ScrollView` and related classes.
+
 ## API
 
 The API will seem almost entirely identical; the soure is taken largely from existing sources, and modified where needed.  Both `android.widget.ScrollView` and `android.widget.HorizontalScrollView` were used to come up with the base; additionally ideas were taken from my own previous work on http://github.com/moagrius/TileView, and:
@@ -31,7 +43,7 @@ I've modified from the source for a few reasons:
  5. Certain accessibility functions have been removed (e.g., does "scroll forward" mean down, or right?)
  6. Using a Scroller rather than an OverScroller; over-scroll seems less helpful for "panning" views than a list-type view.
 
-You may not agree with all the decisions made, but I think if you check out the demo (built into the repo and super easy to use), you'll find the `com.moagrius.widgets.ScrollView` is not only a worthy replacement that does the job required of multiple framework-provided widgets, but also that you'll find uses that exceed the mandate of those other widgets.  For example, if you just want to pan and zoom an image or component, these classes can handle almost all of that functionality out of the box, with a familiar API and familiar behavior.  Remember that we're usign the same time ranges, pixel slops, interpolation, thresholds and qualification branching that are used currently, so you'll find that your new `ScrollView` looks, acts, and is programmed almost exactly like the others in your app, or others.
+You may not agree with all the decisions made, but I think if you check out the demo (built into the repo and super easy to use), you'll find the `com.moagrius.widgets.ScrollView` http://github.com/moagrius/TileView is not only a worthy replacement that does the job required of multiple framework-provided widgets, but also that you'll find uses that exceed the mandate of those other widgets.  For example, if you just want to pan and zoom an image or component, these classes can handle almost all of that functionality out of the box, with a familiar API and familiar behavior.  Remember that we're usign the same time ranges, pixel slops, interpolation, thresholds and qualification branching that are used currently, so you'll find that your new `ScrollView` looks, acts, and is programmed almost exactly like the others in your app, or others.
 
 ## Feedback & Contributing
 
