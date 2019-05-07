@@ -6,7 +6,7 @@ The Android framework provides `android.widget.ScrollView` and `android.widget.H
 
 `com.moagrius.widgets.ScrollView` can do either, or scroll in any direction.
 
-For example, if you have a content wrapped in a scrolling mechanism, whose layout features are MATCH_PARENT for width, and WRAP_CONTENT for height, you'll scroll vertically.  The inverse would scroll horizontally.  If you have content wrapped in a scrolling mechanism in a 250,000DP square, the widget would scroll in any direction.
+It alogrithmically attempts to determine this for you, although it'd be trivial to add an API to enforce a specific behavior.  For example, if you have a content wrapped in a scrolling mechanism, whose layout features are MATCH_PARENT for width, and WRAP_CONTENT for height, you'll scroll vertically.  The inverse would scroll horizontally.  If you have content wrapped in a scrolling mechanism in a 250,000DP square, the widget would scroll in any direction.
 
 This can be useful for large images, or table- or grid-style layouts.
 
