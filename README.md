@@ -2,6 +2,8 @@
 
 # ScrollView
 
+<img src="https://user-images.githubusercontent.com/701344/57316752-234e3000-70bc-11e9-84ef-a89c54f04fc1.gif" />
+
 The Android framework provides `android.widget.ScrollView` and `android.widget.HorizontalScrollView`, each providing scrolling along one axix.
 
 `com.moagrius.widgets.ScrollView` can do either, or scroll in any direction.
