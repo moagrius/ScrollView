@@ -2,11 +2,17 @@
 
 # ScrollView
 
-In Android, you have `android.widget.ScrollView` and `android.widget.HorizontalScrollView`, one for use for scrolling content across one axis.
+The Android framework provides `android.widget.ScrollView` and `android.widget.HorizontalScrollView`, each providing scrolling along one axix.
 
-This is fine, and will suit your needs in the great majority of circumstances.  That said, the program could probably figure out and deliver what you need based on other configuration variables.  For example, if you have a content wrapped in a scrolling mechanism, whose layout features are MATCH_PARENT for width, and WRAP_CONTENT for height, that's almost always going to mean scroll vertically.  The inverse is true as well.  If you have content wrapped in a scrolling mechanism in a 250,000DP square, it's probably going to need to scroll along both axis, and sometimes diagonally.
+`com.moagrius.widgets.ScrollView` can do either, or scroll in any direction.
 
-Our goal was to provide a single widget that made made these decisions algorithmically.  The result is `com.moagriu.widgets.ScrollView`.
+For example, if you have a content wrapped in a scrolling mechanism, whose layout features are MATCH_PARENT for width, and WRAP_CONTENT for height, you'll scroll vertically.  The inverse would scroll horizontally.  If you have content wrapped in a scrolling mechanism in a 250,000DP square, the widget would scroll in any direction.
+
+This can be useful for large images, or table- or grid-style layouts.
+
+## ScalingScrollView
+
+This is a subclass of `com.moagrius.widgets.ScrollView` with additional functionality for pinch and double tap to scale.  You can allow the `ScalingScrollView` to automatically scale your content by calling `setShouldVisuallyScaleContents(true)` or you can handle the actaul output of the scale yourself by passing `false` to the same method.  For example, you might want a grid of icons that reduces the space between them but does not actually scale the icons - you'd use the latter invocation `setShouldVisuallyScaleContents(false)` for that.
 
 ## Installation
 
