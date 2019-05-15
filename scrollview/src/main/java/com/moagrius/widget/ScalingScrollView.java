@@ -149,6 +149,16 @@ public class ScalingScrollView extends ScrollView implements
     setScale(mScale);
   }
 
+  public void setMinimumScale(float min) {
+    mMinScale = min;
+    setScale(mScale);
+  }
+
+  public void setMaximumScale(float max) {
+    mMaxScale = max;
+    setScale(mScale);
+  }
+
   public void setMinimumScaleMode(MinimumScaleMode minimumScaleMode) {
     mMinimumScaleMode = minimumScaleMode;
     calculateMinimumScaleToFit();
