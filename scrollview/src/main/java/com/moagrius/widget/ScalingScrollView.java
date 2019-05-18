@@ -4,6 +4,8 @@ import android.animation.Animator;
 import android.animation.ValueAnimator;
 import android.content.Context;
 import android.graphics.Canvas;
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.MotionEvent;
@@ -34,6 +36,8 @@ public class ScalingScrollView extends ScrollView implements
 
   private MinimumScaleMode mMinimumScaleMode = MinimumScaleMode.COVER;
 
+  private ScrollScaleState mSavedState;
+
   private float mScale = 1f;
   private float mMinScale = 0f;
   private float mMaxScale = 1f;
@@ -58,6 +62,22 @@ public class ScalingScrollView extends ScrollView implements
     mPointerDownGestureDetector = new PointerDownGestureDetector(context, this);
     mScaleGestureDetector = new ScaleGestureDetector(context, this);
     mZoomScrollAnimator = new ZoomScrollAnimator(this);
+  }
+
+  @Override
+  protected void onRestoreInstanceState(Parcelable state) {
+    ScrollScaleState sss = (ScrollScaleState) state;
+    super.onRestoreInstanceState(sss.getSuperState());
+    mSavedState = sss;
+    setScale(mSavedState.scale);
+  }
+
+  @Override
+  protected Parcelable onSaveInstanceState() {
+    Parcelable superState = super.onSaveInstanceState();
+    ScrollScaleState sss = new ScrollScaleState(superState);
+    sss.scale = mScale;
+    return sss;
   }
 
   private void setIsScaling(boolean isScaling) {
@@ -119,7 +139,7 @@ public class ScalingScrollView extends ScrollView implements
 
   // scale limits
 
-  private void calculateMinimumScaleToFit() {
+  protected void calculateMinimumScaleToFit() {
     float effectiveWidth = getContentWidth() / mScale;
     float effectiveHeight = getContentHeight() / mScale;
     float minimumScaleX = getWidth() / effectiveWidth;
@@ -133,7 +153,7 @@ public class ScalingScrollView extends ScrollView implements
     }
   }
 
-  private float computeMinimumScaleForMode(float minimumScaleX, float minimumScaleY) {
+  protected float computeMinimumScaleForMode(float minimumScaleX, float minimumScaleY) {
     switch (mMinimumScaleMode) {
       case COVER:
         return Math.max(minimumScaleX, minimumScaleY);
@@ -180,7 +200,7 @@ public class ScalingScrollView extends ScrollView implements
     return (int) (super.getContentHeight() * mScale);
   }
 
-  private void resetScrollPositionToWithinLimits() {
+  public void resetScrollPositionToWithinLimits() {
     scrollTo(getScrollX(), getScrollY());
   }
 
@@ -199,19 +219,19 @@ public class ScalingScrollView extends ScrollView implements
 
   // doers
 
-  private float getConstrainedDestinationScale(float scale) {
+  protected float getConstrainedDestinationScale(float scale) {
     scale = Math.max(scale, mEffectiveMinScale);
     scale = Math.min(scale, mMaxScale);
     return scale;
   }
 
-  private int getOffsetScrollXFromScale(int offsetX, float destinationScale, float currentScale) {
+  protected int getOffsetScrollXFromScale(int offsetX, float destinationScale, float currentScale) {
     int scrollX = getScrollX() + offsetX;
     float deltaScale = destinationScale / currentScale;
     return (int) (scrollX * deltaScale) - offsetX;
   }
 
-  private int getOffsetScrollYFromScale(int offsetY, float destinationScale, float currentScale) {
+  protected int getOffsetScrollYFromScale(int offsetY, float destinationScale, float currentScale) {
     int scrollY = getScrollY() + offsetY;
     float deltaScale = destinationScale / currentScale;
     return (int) (scrollY * deltaScale) - offsetY;
@@ -294,6 +314,40 @@ public class ScalingScrollView extends ScrollView implements
 
   public interface ScaleChangedListener {
     void onScaleChanged(ScalingScrollView scalingScrollView, float currentScale, float previousScale);
+  }
+
+  static class ScrollScaleState extends SavedState {
+    public float scale = 1f;
+
+    ScrollScaleState(Parcelable superState) {
+      super(superState);
+    }
+
+    public ScrollScaleState(Parcel source) {
+      super(source);
+      scale = source.readFloat();
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+      super.writeToParcel(dest, flags);
+      dest.writeFloat(scale);
+    }
+
+    @Override
+    public String toString() {
+      return "ScalingScrollView.ScrollScaleState{" + Integer.toHexString(System.identityHashCode(this)) + " scrollPositionY=" + scrollPositionY + ", scrollPositionX=" + scrollPositionX + ", scale=" + scale + "}";
+    }
+
+    public static final Creator<ScrollScaleState> CREATOR = new Creator<ScrollScaleState>() {
+      public ScrollScaleState createFromParcel(Parcel in) {
+        return new ScrollScaleState(in);
+      }
+
+      public ScrollScaleState[] newArray(int size) {
+        return new ScrollScaleState[size];
+      }
+    };
   }
 
   /**
@@ -431,4 +485,7 @@ public class ScalingScrollView extends ScrollView implements
       }
     }
   }
+
+
+
 }

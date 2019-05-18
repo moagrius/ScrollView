@@ -154,14 +154,14 @@ public class ScrollView extends FrameLayout {
     return Math.max(getScrollMinY(), Math.min(y, getVerticalScrollRange()));
   }
 
-  private int getVerticalScrollRange() {
+  protected int getVerticalScrollRange() {
     if (!hasContent()) {
       return 0;
     }
     return Math.max(0, getContentHeight() - (getHeight() - getPaddingBottom() - getPaddingTop()));
   }
 
-  private int getHorizontalScrollRange() {
+  protected int getHorizontalScrollRange() {
     if (!hasContent()) {
       return 0;
     }

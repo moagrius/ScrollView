@@ -20,6 +20,7 @@ public class ScalingScrollViewDemoTextViews extends Activity {
     setContentView(R.layout.activity_demos_scalingscrollview_textviews);
     ScalingScrollView scalingScrollView = findViewById(R.id.scalingscrollview);
     scalingScrollView.setShouldVisuallyScaleContents(true);
+    scalingScrollView.setMaximumScale(5);
     LinearLayout linearLayout = findViewById(R.id.linearlayout);
     for (int i = 0; i < 25; i++) {
       LinearLayout row = new LinearLayout(this);
