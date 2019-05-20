@@ -978,7 +978,7 @@ public class ScrollView extends FrameLayout {
     public int scrollPositionY;
     public int scrollPositionX;
 
-    SavedState(Parcelable superState) {
+    public SavedState(Parcelable superState) {
       super(superState);
     }
 
