@@ -316,7 +316,7 @@ public class ScalingScrollView extends ScrollView implements
     void onScaleChanged(ScalingScrollView scalingScrollView, float currentScale, float previousScale);
   }
 
-  static class ScrollScaleState extends SavedState {
+  protected static class ScrollScaleState extends SavedState {
     public float scale = 1f;
 
     ScrollScaleState(Parcelable superState) {

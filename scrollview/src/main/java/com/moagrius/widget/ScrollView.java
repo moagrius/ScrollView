@@ -974,7 +974,7 @@ public class ScrollView extends FrameLayout {
     return ss;
   }
 
-  static class SavedState extends BaseSavedState {
+  protected static class SavedState extends BaseSavedState {
     public int scrollPositionY;
     public int scrollPositionX;
 
