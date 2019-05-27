@@ -266,6 +266,10 @@ public class ScalingScrollView extends ScrollView implements
     smoothScaleFromFocalPoint(getWidth() / 2, getHeight() / 2, scale);
   }
 
+  public void smoothScaleAndScrollTo(int x, int y, float scale) {
+    getAnimator().animate(x, y, scale);
+  }
+
   // interface methods
 
   @Override
