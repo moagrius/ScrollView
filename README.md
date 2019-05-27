@@ -21,7 +21,7 @@ This is a subclass of `com.moagrius.widgets.ScrollView` with additional function
 `ScrollView` is available on jcenter.  Use the gradle `implementation` function in your `build.gradle`
 
 ```
-implementation 'com.moagrius:scrollview:1.0.4'
+implementation 'com.moagrius:scrollview:1.0.10'
 ```
 
 ## Usage
