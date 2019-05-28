@@ -959,9 +959,14 @@ public class ScrollView extends FrameLayout {
 
   @Override
   protected void onRestoreInstanceState(Parcelable state) {
-    SavedState ss = (SavedState) state;
-    super.onRestoreInstanceState(ss.getSuperState());
-    mSavedState = ss;
+    BaseSavedState baseSavedState = (BaseSavedState) state;
+    super.onRestoreInstanceState(baseSavedState.getSuperState());
+    restoreInstanceState(state);
+  }
+
+  // so we don't have to get super's behavior
+  protected void restoreInstanceState(Parcelable state) {
+    mSavedState = (SavedState) state;
     requestLayout();
   }
 
