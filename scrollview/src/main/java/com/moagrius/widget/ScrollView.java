@@ -53,6 +53,7 @@ public class ScrollView extends FrameLayout {
 
   private static final int ANIMATED_SCROLL_GAP = 250;
   private static final int INVALID_POINTER = -1;
+  private static final int ANIMATED_SCROLL_DEFAULT = 250;
 
   private static final int DIRECTION_BACKWARD = -1;
   private static final int DIRECTION_FORWARD = 1;
@@ -245,6 +246,10 @@ public class ScrollView extends FrameLayout {
   }
 
   public final void smoothScrollBy(int dx, int dy) {
+  this.smoothScrollBy(dx,dy,ANIMATED_SCROLL_DEFAULT);
+  }
+
+  public final void smoothScrollBy(int dx, int dy,int animDuration) {
     if (!hasContent()) {
       return;
     }
@@ -260,7 +265,7 @@ public class ScrollView extends FrameLayout {
       final int maxY = Math.max(0, bottom - height);
       final int scrollY = getScrollY();
       dy = Math.max(0, Math.min(scrollY + dy, maxY)) - scrollY;
-      mScroller.startScroll(scrollX, scrollY, dx, dy);
+      mScroller.startScroll(scrollX, scrollY, dx, dy,animDuration);
       postInvalidateOnAnimation();
     } else {
       if (!mScroller.isFinished()) {
@@ -272,7 +277,11 @@ public class ScrollView extends FrameLayout {
   }
 
   public final void smoothScrollTo(int x, int y) {
-    smoothScrollBy(x - getScrollX(), y - getScrollY());
+    this.smoothScrollTo(x,y,ANIMATED_SCROLL_DEFAULT);
+  }
+
+  public final void smoothScrollTo(int x, int y,int animDuration) {
+    smoothScrollBy(x - getScrollX(), y - getScrollY(),animDuration);
   }
 
   private void performScrollBy(int x, int y) {
